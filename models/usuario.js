@@ -14,13 +14,16 @@ const UsuarioSchema = Schema({
     type: String,
     required: [true, "La contraseña es obligatorio"],
   },
-  imagen: {
-    type: String,
-  },
+
   posicion: {
     type: String,
     required: true,
     enum: ["DRIVE", "REVES"],
+  },
+  avatar: {
+    type: String,
+    default:
+      "https://img.freepik.com/vector-gratis/ilustracion-padel-estilo-dibujado-mano_23-2149199898.jpg",
   },
   rol: {
     type: String,
@@ -28,7 +31,6 @@ const UsuarioSchema = Schema({
     enum: ["ADMIN-ROLE", "USER-ROLE"],
     default: "USER-ROLE",
   },
-
   estado: {
     type: Boolean,
     default: true,
