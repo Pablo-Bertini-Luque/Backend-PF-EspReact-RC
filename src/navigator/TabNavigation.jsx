@@ -3,7 +3,7 @@ import { MyTurns } from "../screens/TabScreens/MyTurns";
 import { Entypo } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { StackNavigator } from "./StackNavigator";
-import { Session } from "../screens/TabScreens/Session";
+import { StackNavigatorSession } from "./StackNavigatorSession";
 
 const Tab = createBottomTabNavigator();
 
@@ -32,7 +32,7 @@ export const TabNavigation = () => {
       />
       <Tab.Screen
         name="Mi Perfil"
-        component={Session}
+        component={StackNavigatorSession}
         options={{
           tabBarIcon: () => <Feather name="user" size={24} color="black" />,
         }}

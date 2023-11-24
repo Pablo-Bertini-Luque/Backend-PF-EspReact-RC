@@ -3,10 +3,10 @@ import React, { useContext, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { stylesGral } from "../../css/Theme";
 import { Login } from "../Auths/Login";
-import { Profile } from "./Profile";
+import { Profile } from "../TabScreens/Profile";
 import { AuthContext } from "../../contexts/AuthContext";
 
-export const Session = () => {
+export const Session = ({ navigation }) => {
   const { state } = useContext(AuthContext);
 
   if (state.isLogged) {
@@ -20,7 +20,7 @@ export const Session = () => {
   if (!state.isLogged) {
     return (
       <SafeAreaView style={stylesGral.safeAreaView}>
-        <Login />
+        <Login navigation={navigation} />
       </SafeAreaView>
     );
   }

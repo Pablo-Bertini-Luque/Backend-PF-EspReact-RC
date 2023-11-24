@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Pressable, StyleSheet, TextInput, View } from "react-native";
 import { Feather } from "react-native-vector-icons";
+import { CustumErrorInput } from "./CustumErrorInput";
 
-export const CustomconInput = () => {
+export const CustomconInput = ({ name, formik }) => {
   const [viewPw, setViewPw] = useState(true);
   const [icon, setIcon] = useState("eye-off");
   const [opacity, setOpacity] = useState("0.3");
@@ -29,7 +30,12 @@ export const CustomconInput = () => {
         placeholder="Pasword"
         placeholderTextColor="grey"
         secureTextEntry={viewPw}
+        name={name}
+        onChangeText={(value) => formik.setFieldValue(name, value)}
       />
+      {formik.errors.contraseña && (
+        <CustumErrorInput message={formik.errors.contraseña} />
+      )}
     </View>
   );
 };

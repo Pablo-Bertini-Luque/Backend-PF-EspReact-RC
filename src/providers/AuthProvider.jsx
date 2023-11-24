@@ -4,6 +4,7 @@ import { AuthReducer } from "../reducers/AuthReducers";
 import { padelApiUrl } from "../../config/padelpertuttiApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { types } from "../types/Types";
+import { CustomModal } from "../components/CustomModal";
 
 const initialState = {
   user: null,
@@ -25,6 +26,7 @@ export const AuthProvider = ({ children }) => {
         },
       });
     } catch (error) {
+      <CustomModal text={state.errorMessage} />;
       dispatch({
         type: types.auth.error,
         payload: {
