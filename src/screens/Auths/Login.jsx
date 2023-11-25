@@ -18,7 +18,8 @@ import { CustomModal } from "../../components/CustomModal";
 import { CustumErrorInput } from "../../components/CustumErrorInput";
 
 export const Login = ({ navigation }) => {
-  const { login } = useContext(AuthContext);
+  const { login, state, handleCloseModal, activeErrorModal } =
+    useContext(AuthContext);
 
   const formik = useFormik({
     initialValues: {
@@ -79,6 +80,11 @@ export const Login = ({ navigation }) => {
             </View>
           </View>
         </View>
+        <CustomModal
+          text={state.errorMessage}
+          activeErrorModal={activeErrorModal}
+          handleCloseModal={handleCloseModal}
+        />
       </SafeAreaView>
     </>
   );

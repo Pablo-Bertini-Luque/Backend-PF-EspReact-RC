@@ -42,12 +42,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    if (state.errorMessage) {
-      setActiveErrorModal(true);
-    }
-  }, [state.errorMessage]);
-
   const logout = () => {
     dispatch({
       type: types.auth.logout,
@@ -57,14 +51,11 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <>
-      <AuthContext.Provider value={{ state, login, logout }}>
+      <AuthContext.Provider
+        value={{ state, login, logout, handleCloseModal, activeErrorModal }}
+      >
         {children}
       </AuthContext.Provider>
-      <CustomModal
-        text={state.errorMessage}
-        activeErrorModal={activeErrorModal}
-        handleCloseModal={handleCloseModal}
-      />
     </>
   );
 };
