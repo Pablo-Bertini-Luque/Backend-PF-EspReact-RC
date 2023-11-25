@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, methods } = require("mongoose");
 
 const TurnoSchema = Schema({
   lugar: {
@@ -29,5 +29,10 @@ const TurnoSchema = Schema({
     required: true,
   },
 });
+
+TurnoSchema.methods.toJSON = function () {
+  const { __v, ...turno } = this.toObject();
+  return turno;
+};
 
 module.exports = model("Turno", TurnoSchema);
