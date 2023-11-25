@@ -14,7 +14,6 @@ const UsuarioSchema = Schema({
     type: String,
     required: [true, "La contraseña es obligatorio"],
   },
-
   posicion: {
     type: String,
     required: true,

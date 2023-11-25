@@ -6,7 +6,6 @@ const {
   userPost,
   userDelete,
   userPatch,
-  userById,
 } = require("../controllers/user");
 const { validarCampos, validarJWT, esAdminRole } = require("../middlewares");
 const { emailExiste, usuarioPorIdExiste } = require("../helpers/db-validators");
@@ -14,8 +13,6 @@ const { emailExiste, usuarioPorIdExiste } = require("../helpers/db-validators");
 const router = Router();
 
 router.get("/", userGet);
-
-router.get("/:id", userById);
 
 router.post(
   "/",

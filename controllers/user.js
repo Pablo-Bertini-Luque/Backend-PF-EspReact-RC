@@ -16,12 +16,6 @@ const userGet = async (req = request, res = response) => {
   });
 };
 
-const userById = async (req = request, res = response) => {
-  const { id } = req.params;
-  const usuario = await Usuario.findById(id);
-  res.json({ usuario });
-};
-
 const userPost = async (req = request, res = response) => {
   const { nombre, email, contraseña, posicion } = req.body;
 
@@ -35,6 +29,7 @@ const userPost = async (req = request, res = response) => {
   await usuario.save();
 
   res.json({
+    msg: "Usuario registrado con exito",
     usuario,
   });
 };
@@ -71,7 +66,6 @@ const userDelete = async (req = request, res = response) => {
 
 module.exports = {
   userGet,
-  userById,
   userPost,
   userPut,
   userPatch,
