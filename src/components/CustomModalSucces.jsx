@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { Modal, View, Text, Pressable, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
-export const CustomModalSucces = () => {
-  const [visible, setVisible] = useState(true);
+export const CustomModalSucces = ({ activeModal, text }) => {
+  const navigation = useNavigation();
 
   return (
     <View>
       <Modal
         animationType="slide"
-        visible={false}
+        visible={activeModal}
         transparent={true}
         hardwareAccelerated={true}
       >
@@ -24,9 +25,9 @@ export const CustomModalSucces = () => {
                 marginTop: 10,
               }}
             >
-              Usuario registrado con exito
+              {text}
             </Text>
-            <Pressable onPress={() => setVisible(false)}>
+            <Pressable onPress={() => navigation.navigate("Session")}>
               <Text style={styles.close}>Cerrar</Text>
             </Pressable>
           </View>

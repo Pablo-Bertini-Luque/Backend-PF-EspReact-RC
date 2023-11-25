@@ -1,5 +1,4 @@
-import React, { useContext, useEffect } from "react";
-
+import React, { useContext } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { stylesGral } from "../../css/Theme";
 import { Login } from "../Auths/Login";
@@ -12,7 +11,7 @@ export const Session = ({ navigation }) => {
   if (state.isLogged) {
     return (
       <SafeAreaView style={stylesGral.safeAreaView}>
-        <Profile idUser={state.user.uid} />
+        <Profile />
       </SafeAreaView>
     );
   }

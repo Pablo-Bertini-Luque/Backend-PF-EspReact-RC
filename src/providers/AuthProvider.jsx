@@ -1,10 +1,11 @@
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { AuthReducer } from "../reducers/AuthReducers";
 import { padelApiUrl } from "../../config/padelpertuttiApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { types } from "../types/Types";
 import { CustomModal } from "../components/CustomModal";
+import { View } from "react-native";
 
 const initialState = {
   user: null,
@@ -14,6 +15,11 @@ const initialState = {
 
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AuthReducer, initialState);
+  const [activeErrorModal, setActiveErrorModal] = useState(false);
+
+  const handleCloseModal = () => {
+    setActiveErrorModal(false);
+  };
 
   const login = async (email, contraseña) => {
     try {
@@ -26,25 +32,39 @@ export const AuthProvider = ({ children }) => {
         },
       });
     } catch (error) {
-      <CustomModal text={state.errorMessage} />;
       dispatch({
         type: types.auth.error,
         payload: {
           errorMessage: error.response.data.msg,
         },
       });
+      setActiveErrorModal(true);
     }
   };
 
+  useEffect(() => {
+    if (state.errorMessage) {
+      setActiveErrorModal(true);
+    }
+  }, [state.errorMessage]);
+
   const logout = () => {
     dispatch({
-      types: types.auth.logout,
+      type: types.auth.logout,
+      payload: false,
     });
   };
 
   return (
-    <AuthContext.Provider value={{ state, login, logout }}>
-      {children}
-    </AuthContext.Provider>
+    <>
+      <AuthContext.Provider value={{ state, login, logout }}>
+        {children}
+      </AuthContext.Provider>
+      <CustomModal
+        text={state.errorMessage}
+        activeErrorModal={activeErrorModal}
+        handleCloseModal={handleCloseModal}
+      />
+    </>
   );
 };

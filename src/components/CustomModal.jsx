@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { Modal, View, Text, Pressable, StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-export const CustomModal = ({ text }) => {
-  const [visible, setVisible] = useState(true);
-
+export const CustomModal = ({ text, activeErrorModal, handleCloseModal }) => {
   return (
     <View>
       <Modal
         animationType="slide"
-        visible={false}
+        visible={activeErrorModal}
         transparent={true}
         hardwareAccelerated={true}
       >
@@ -26,7 +24,7 @@ export const CustomModal = ({ text }) => {
             >
               {text}
             </Text>
-            <Pressable onPress={() => setVisible(false)}>
+            <Pressable onPress={handleCloseModal}>
               <Text style={styles.close}>Cerrar</Text>
             </Pressable>
           </View>

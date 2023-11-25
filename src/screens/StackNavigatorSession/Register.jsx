@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   SafeAreaView,
@@ -15,8 +15,17 @@ import * as Yup from "yup";
 import { CustumErrorInput } from "../../components/CustumErrorInput";
 import { CustomconInput } from "../../components/CustomImputs";
 import { padelApiUrl } from "../../../config/padelpertuttiApi";
+import { CustomModal } from "../../components/CustomModal";
 
 export const Register = ({ navigation }) => {
+  const [activeModal, setActiveModal] = useState(false);
+  const [activeErrorModal, setActiveErrorModal] = useState(false);
+  const [textModal, setTextModal] = useState("");
+
+  const handleCloseModal = () => {
+    setActiveErrorModal(false);
+  };
+
   const registration = async (nombre, posicion, email, contraseña) => {
     try {
       const register = await padelApiUrl.post("/usuarios", {
@@ -25,10 +34,16 @@ export const Register = ({ navigation }) => {
         email,
         contraseña,
       });
-      const data = await register.data.usuario;
-      console.log(data);
+      setActiveModal(true);
+      setTextModal(register.data.msg + ". Ahora debe loguearse");
+      formik.resetForm();
     } catch (error) {
-      console.log(error.resp.data.msg);
+      setActiveErrorModal(true);
+      const errores = error.response.data.errors;
+      for (const error of errores) {
+        const mensajeError = error.msg;
+        setTextModal(mensajeError);
+      }
     }
   };
 
@@ -136,7 +151,12 @@ export const Register = ({ navigation }) => {
           </View>
         </View>
       </SafeAreaView>
-      <CustomModalSucces />
+      <CustomModalSucces activeModal={activeModal} text={textModal} />
+      <CustomModal
+        activeErrorModal={activeErrorModal}
+        handleCloseModal={handleCloseModal}
+        text={textModal}
+      />
     </>
   );
 };

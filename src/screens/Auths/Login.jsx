@@ -80,7 +80,6 @@ export const Login = ({ navigation }) => {
           </View>
         </View>
       </SafeAreaView>
-      <CustomModal />
     </>
   );
 };
