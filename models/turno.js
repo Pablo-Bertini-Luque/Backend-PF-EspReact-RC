@@ -19,6 +19,11 @@ const TurnoSchema = Schema({
     required: [true, "Indica tipo superficie de la cancha del turno"],
     enum: ["CESPED", "CEMENTO"],
   },
+  avatar: {
+    type: String,
+    default:
+      "https://vairo.com/padel/wp-content/uploads/2021/02/panoramica-pista-padel.jpeg",
+  },
   estado: {
     type: Boolean,
     default: true,

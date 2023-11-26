@@ -1,5 +1,6 @@
 const { response, request } = require("express");
 const Turno = require("../models/turno");
+const Usuario = require("../models/usuario");
 
 const listarTurnos = async (req = request, res = response) => {
   const [total, turnos] = await Promise.all([
@@ -18,7 +19,14 @@ const turnoById = async (req = request, res = response) => {
 
   const turno = await Turno.findById(id);
 
-  res.json(turno);
+  const idUsuarioCreadorTurno = turno.creadorTurno._id;
+
+  const { nombre } = await Usuario.findById(idUsuarioCreadorTurno);
+
+  res.json({
+    turno,
+    UsuarioCreadordelTurno: nombre,
+  });
 };
 
 const crearTurno = async (req = request, res = response) => {
