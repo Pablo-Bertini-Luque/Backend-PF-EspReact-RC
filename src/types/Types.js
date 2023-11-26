@@ -4,4 +4,8 @@ export const types = {
     error: "[AUTH] - ERROR",
     logout: "[AUTH] - LOGOUT",
   },
+  turns: {
+    loadTurns: "[TURNS] - LOAD",
+    errorsTurns: "[TURNS] - ERRORS",
+  },
 };
