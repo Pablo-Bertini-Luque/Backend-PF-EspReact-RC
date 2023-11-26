@@ -7,7 +7,7 @@ export const ProductsItem = ({ item, navigation }) => {
       <View>
         <Image
           source={{
-            uri: `${item.thumbnail}`,
+            uri: `${item.avatar}`,
           }}
           style={styles.imageProduct}
         />
@@ -17,17 +17,14 @@ export const ProductsItem = ({ item, navigation }) => {
           flex: 4,
         }}
       >
-        <Text style={{ padding: 5, fontSize: 17, fontWeight: "bold", flex: 3 }}>
-          {item.location}
+        <Text style={{ padding: 5, fontSize: 20, fontWeight: "bold", flex: 3 }}>
+          {item.lugar}
         </Text>
-        <Text style={{ padding: 5, fontSize: 17, fontWeight: "bold", flex: 1 }}>
-          {item.hour}
-        </Text>
-        <Text style={{ padding: 5, fontSize: 15, flex: 1 }}>
-          {item.category}
+        <Text style={{ padding: 5, fontSize: 20, fontWeight: "bold", flex: 1 }}>
+          {item.hora}
         </Text>
         <Text style={{ padding: 5, fontSize: 15, flex: 1 }}>
-          {item.playingPosition}
+          {"Categoria Jugadores: " + `${item.categoria}`}
         </Text>
       </View>
       <View
@@ -40,7 +37,7 @@ export const ProductsItem = ({ item, navigation }) => {
       >
         <Button
           title="Ver mas"
-          onPress={() => navigation.navigate("InfoTurn", { idTurn: item.id })}
+          onPress={() => navigation.navigate("InfoTurn", { idTurn: item._id })}
         />
       </View>
     </View>

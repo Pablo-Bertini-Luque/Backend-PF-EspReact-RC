@@ -10,7 +10,7 @@ export const Home = ({ navigation, route }) => {
 
   useEffect(() => {
     getAllTurnos();
-  }, [state.turn]);
+  }, []);
 
   const stateTurns = Object.keys(state.turn);
 
@@ -25,7 +25,7 @@ export const Home = ({ navigation, route }) => {
   if (stateTurns.length >= 1) {
     return (
       <SafeAreaView style={stylesGral.safeAreaView}>
-        <ProductsList navigation={navigation} route={route} />
+        <ProductsList navigation={navigation} route={route} data={state.turn} />
       </SafeAreaView>
     );
   }

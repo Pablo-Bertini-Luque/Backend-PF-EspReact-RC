@@ -3,14 +3,14 @@ import { FlatList, StyleSheet, View, StatusBar } from "react-native";
 import { products } from "../JSON/Productos.json";
 import { ProductsItem } from "./ProductsItem";
 
-export const ProductsList = ({ navigation }) => {
+export const ProductsList = ({ navigation, data }) => {
   return (
     <>
       <StatusBar hidden={true} />
       <View style={{ padding: 3 }}>
         <FlatList
-          data={products}
-          keyExtractor={(item) => item.id}
+          data={data}
+          keyExtractor={(item) => item._id}
           numColumns={2}
           renderItem={({ item }) => (
             <ProductsItem item={item} navigation={navigation} />
