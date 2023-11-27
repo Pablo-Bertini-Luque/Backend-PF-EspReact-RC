@@ -34,7 +34,6 @@ export const TurnsProvider = ({ children }) => {
         },
       });
     } catch (error) {
-      console.log(error);
       dispatch({
         type: types.turns.errorsTurns,
         payload: {
