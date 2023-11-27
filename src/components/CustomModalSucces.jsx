@@ -3,7 +3,11 @@ import { Modal, View, Text, Pressable, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-export const CustomModalSucces = ({ activeModal, text }) => {
+export const CustomModalSucces = ({
+  activeModal,
+  text,
+  handleSuccessCloseModal,
+}) => {
   const navigation = useNavigation();
 
   return (
@@ -27,7 +31,7 @@ export const CustomModalSucces = ({ activeModal, text }) => {
             >
               {text}
             </Text>
-            <Pressable onPress={() => navigation.navigate("Session")}>
+            <Pressable onPress={handleSuccessCloseModal}>
               <Text style={styles.close}>Cerrar</Text>
             </Pressable>
           </View>

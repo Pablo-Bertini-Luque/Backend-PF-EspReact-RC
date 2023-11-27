@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import {
   Button,
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { stylesGral } from "../../css/Theme";
-import { CustomModalSucces } from "../../components/CustomModalSucces";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { stylesGral } from "../../css/Theme";
+import { CustomModalSucces } from "../../components/CustomModalSucces";
 import { CustumErrorInput } from "../../components/CustumErrorInput";
 import { CustomconInput } from "../../components/CustomImputs";
 import { padelApiUrl } from "../../../config/padelpertuttiApi";

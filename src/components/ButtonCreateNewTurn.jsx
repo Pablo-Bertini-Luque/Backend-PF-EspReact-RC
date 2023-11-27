@@ -1,21 +1,24 @@
-import React, { useContext, useState } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
-import { AuthContext } from "../contexts/AuthContext";
+import React, { useState } from "react";
+import { Button, View } from "react-native";
 import { CustomModal } from "./CustomModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const ButtonCreateNewTurn = ({ navigation }) => {
-  const { state } = useContext(AuthContext);
   const [text, setText] = useState("");
   const [activeErrorModal, setActiveErrorModal] = useState(false);
 
   const checkToken = async () => {
-    const token = await AsyncStorage.getItem("x-token");
-    if (token) {
-      console.log("Hay token");
-    } else {
+    try {
+      const token = await AsyncStorage.getItem("x-token");
+      if (token) {
+        navigation.navigate("CreateTurn");
+      } else {
+        setActiveErrorModal(true);
+        setText("Para poder crear un turno, debe haber iniciado sesion");
+      }
+    } catch (error) {
       setActiveErrorModal(true);
-      setText("Para poder crear un turno, debe haber iniciado sesion");
+      setText("Ocurrió el siguiente error: " + error);
     }
   };
 

@@ -12,9 +12,15 @@ const initialState = {
 export const TurnsProvider = ({ children }) => {
   const [state, dispatch] = useReducer(TurnsReducer, initialState);
   const [activeErrorModal, setActiveErrorModal] = useState(false);
+  const [activeModal, setActiveModal] = useState(false);
+  const [textModal, setTextModal] = useState("");
 
   const handleCloseModal = () => {
     setActiveErrorModal(false);
+  };
+
+  const handleSuccessCloseModal = () => {
+    setActiveModal(false);
   };
 
   const getAllTurnos = async () => {
@@ -28,10 +34,39 @@ export const TurnsProvider = ({ children }) => {
         },
       });
     } catch (error) {
+      console.log(error);
       dispatch({
         type: types.turns.errorsTurns,
         payload: {
-          errorMessage: error.response.data.msg,
+          errorMessage: error.response.data.errors.msg,
+        },
+      });
+
+      setActiveErrorModal(true);
+    }
+  };
+
+  const newTurn = async (lugar, hora, categoria, tipoCancha) => {
+    try {
+      const register = await padelApiUrl.post("/turnos", {
+        lugar,
+        hora,
+        categoria,
+        tipoCancha,
+      });
+      dispatch({
+        type: types.turns.newTurns,
+        payload: {
+          newTurn: register.data.turno,
+        },
+      });
+      setTextModal(register.data.msg);
+      setActiveModal(true);
+    } catch (error) {
+      dispatch({
+        type: types.turns.errorsTurns,
+        payload: {
+          errorMessage: error.response.data.errors[0].msg,
         },
       });
       setActiveErrorModal(true);
@@ -40,7 +75,16 @@ export const TurnsProvider = ({ children }) => {
 
   return (
     <TurnsContext.Provider
-      value={{ state, handleCloseModal, activeErrorModal, getAllTurnos }}
+      value={{
+        state,
+        handleCloseModal,
+        handleSuccessCloseModal,
+        activeErrorModal,
+        getAllTurnos,
+        newTurn,
+        textModal,
+        activeModal,
+      }}
     >
       {children}
     </TurnsContext.Provider>

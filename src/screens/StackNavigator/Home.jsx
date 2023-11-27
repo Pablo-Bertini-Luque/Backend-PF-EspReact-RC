@@ -19,7 +19,7 @@ export const Home = ({ navigation, route }) => {
   if (stateTurns.length === 0) {
     return (
       <SafeAreaView style={stylesGral.safeAreaView}>
-        <EmptyTurns />
+        <EmptyTurns navigation={navigation} />
       </SafeAreaView>
     );
   }

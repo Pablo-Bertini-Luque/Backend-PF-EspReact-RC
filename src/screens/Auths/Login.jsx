@@ -43,22 +43,19 @@ export const Login = ({ navigation }) => {
 
   return (
     <>
-      <SafeAreaView style={stylesGral.safeAreaView}>
-        <KeyboardAvoidingView
-          style={styles.container}
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
-          <View style={styles.container}>
-            <View>
-              <Image
-                style={styles.logo}
-                source={require("../../../assets/splash.png")}
-              />
-              <Text style={styles.text}>Padel per Tutti</Text>
-            </View>
-
-            {/* Tu contenido actual */}
-
+      <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
+        <View style={styles.container}>
+          <View>
+            <Image
+              style={styles.logo}
+              source={require("../../../assets/splash.png")}
+            />
+            <Text style={styles.text}>Padel per Tutti</Text>
+          </View>
+          <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+          >
             <View style={styles.containerInputs}>
               <TextInput
                 style={stylesGral.input}
@@ -90,8 +87,8 @@ export const Login = ({ navigation }) => {
                 </TouchableOpacity>
               </View>
             </View>
-          </View>
-        </KeyboardAvoidingView>
+          </KeyboardAvoidingView>
+        </View>
       </SafeAreaView>
       <CustomModal
         text={state.errorMessage}
