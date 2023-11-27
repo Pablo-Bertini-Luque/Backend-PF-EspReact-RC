@@ -56,6 +56,7 @@ const crearTurno = async (req = request, res = response) => {
     res.status(201).json({
       turno,
       cantidadTurnos,
+      msg: "Turno creado con éxito",
     });
   } catch (error) {
     return res.json(error);
