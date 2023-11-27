@@ -6,9 +6,7 @@ export const ProductsItem = ({ item, navigation }) => {
     <View style={styles.container}>
       <View>
         <Image
-          source={{
-            uri: `${item.avatar}`,
-          }}
+          source={require("../../assets/ImagenInfoTurn.jpeg")}
           style={styles.imageProduct}
         />
       </View>
@@ -24,7 +22,7 @@ export const ProductsItem = ({ item, navigation }) => {
           {item.hora}
         </Text>
         <Text style={{ padding: 5, fontSize: 15, flex: 1 }}>
-          {"Categoria Jugadores: " + `${item.categoria}`}
+          {"Categoria: " + `${item.categoria}`}
         </Text>
       </View>
       <View
@@ -56,7 +54,8 @@ const styles = StyleSheet.create({
 
   imageProduct: {
     flex: 1,
-    height: 190,
-    borderWidth: 2,
+    height: 150,
+    width: "100%",
+    borderRadius: 10,
   },
 });

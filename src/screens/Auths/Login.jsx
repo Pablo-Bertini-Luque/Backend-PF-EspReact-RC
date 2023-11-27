@@ -7,6 +7,8 @@ import {
   TextInput,
   Button,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFormik } from "formik";
@@ -42,50 +44,60 @@ export const Login = ({ navigation }) => {
   return (
     <>
       <SafeAreaView style={stylesGral.safeAreaView}>
-        <View style={styles.container}>
-          <View>
-            <Image
-              style={styles.logo}
-              source={require("../../../assets/splash.png")}
-            />
-            <Text style={styles.text}>Padel per Tutti</Text>
-          </View>
-          <View style={{ flex: 1, marginTop: 50 }}>
-            <TextInput
-              style={stylesGral.input}
-              placeholder="Email"
-              placeholderTextColor="grey"
-              autoComplete="email"
-              name="email"
-              onChangeText={(value) =>
-                formik.setFieldValue("email", value.toLowerCase())
-              }
-            />
-            {formik.errors.email && (
-              <CustumErrorInput message={formik.errors.email} />
-            )}
-
-            <CustomconInput name={"contraseña"} formik={formik} />
-          </View>
-          <View style={styles.button}>
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <View style={styles.container}>
             <View>
-              <Button title="Ingresar" onPress={formik.handleSubmit} />
+              <Image
+                style={styles.logo}
+                source={require("../../../assets/splash.png")}
+              />
+              <Text style={styles.text}>Padel per Tutti</Text>
             </View>
-            <View style={{ marginTop: 40 }}>
-              <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-                <Text style={{ color: "white", textAlign: "center" }}>
-                  REGISTRARSE
-                </Text>
-              </TouchableOpacity>
+
+            {/* Tu contenido actual */}
+
+            <View style={styles.containerInputs}>
+              <TextInput
+                style={stylesGral.input}
+                placeholder="Email"
+                placeholderTextColor="grey"
+                autoComplete="email"
+                name="email"
+                onChangeText={(value) =>
+                  formik.setFieldValue("email", value.toLowerCase())
+                }
+              />
+              {formik.errors.email && (
+                <CustumErrorInput message={formik.errors.email} />
+              )}
+
+              <CustomconInput name={"contraseña"} formik={formik} />
+            </View>
+            <View style={styles.button}>
+              <View>
+                <Button title="Ingresar" onPress={formik.handleSubmit} />
+              </View>
+              <View style={{ marginTop: 40 }}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("Register")}
+                >
+                  <Text style={{ color: "white", textAlign: "center" }}>
+                    REGISTRARSE
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-        <CustomModal
-          text={state.errorMessage}
-          activeErrorModal={activeErrorModal}
-          handleCloseModal={handleCloseModal}
-        />
+        </KeyboardAvoidingView>
       </SafeAreaView>
+      <CustomModal
+        text={state.errorMessage}
+        activeErrorModal={activeErrorModal}
+        handleCloseModal={handleCloseModal}
+      />
     </>
   );
 };
@@ -96,8 +108,8 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
   },
   logo: {
-    width: 150,
-    height: 150,
+    width: 120,
+    height: 120,
     alignSelf: "center",
   },
   text: {
@@ -106,6 +118,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     alignSelf: "center",
     marginTop: 10,
+  },
+  containerInputs: {
+    flex: 2,
+    marginTop: 20,
   },
   button: {
     flex: 1,

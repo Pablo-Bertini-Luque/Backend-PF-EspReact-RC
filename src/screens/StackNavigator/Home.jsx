@@ -4,13 +4,15 @@ import { ProductsList } from "../../components/ProductsList";
 import { useContext, useEffect } from "react";
 import { TurnsContext } from "../../contexts/TurnsContext";
 import { EmptyTurns } from "../StackNavigatorSession/EmptyTurns";
+import { ButtonCreateNewTurn } from "../../components/ButtonCreateNewTurn";
+import { StyleSheet, View, Text } from "react-native";
 
 export const Home = ({ navigation, route }) => {
   const { state, getAllTurnos } = useContext(TurnsContext);
 
   useEffect(() => {
     getAllTurnos();
-  }, []);
+  }, [state.turn]);
 
   const stateTurns = Object.keys(state.turn);
 
@@ -25,8 +27,33 @@ export const Home = ({ navigation, route }) => {
   if (stateTurns.length >= 1) {
     return (
       <SafeAreaView style={stylesGral.safeAreaView}>
-        <ProductsList navigation={navigation} route={route} data={state.turn} />
+        <View style={styles.container}>
+          <Text style={styles.text}>Padel per Tutti</Text>
+          <ButtonCreateNewTurn navigation={navigation} />
+        </View>
+        <View style={{ flex: 7 }}>
+          <ProductsList
+            navigation={navigation}
+            route={route}
+            data={state.turn}
+          />
+        </View>
       </SafeAreaView>
     );
   }
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    justifyContent: "center",
+    margin: 10,
+  },
+  text: {
+    width: 150,
+    textAlignVertical: "center",
+    fontSize: 18,
+    fontWeight: "bold",
+    marginEnd: 20,
+  },
+});

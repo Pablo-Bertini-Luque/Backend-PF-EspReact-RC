@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
   iconPass: {
     position: "absolute",
     right: 30,
+    top: 20,
     fontSize: 20,
     zIndex: 999,
   },

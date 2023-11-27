@@ -42,7 +42,8 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    const removeToken = await AsyncStorage.removeItem("x-token");
     dispatch({
       type: types.auth.logout,
       payload: false,

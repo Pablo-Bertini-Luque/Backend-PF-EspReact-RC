@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Text, View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { stylesGral } from "../../css/Theme";
+import { ButtonCreateNewTurn } from "../../components/ButtonCreateNewTurn";
 
 export const EmptyTurns = () => {
   return (
@@ -10,7 +11,7 @@ export const EmptyTurns = () => {
         <View>
           <Text style={styles.text}>No hay turnos disponibles</Text>
           <View style={styles.button}>
-            <Button title="Crear nuevo turno" />
+            <ButtonCreateNewTurn />
           </View>
         </View>
       </View>
@@ -34,7 +35,6 @@ const styles = StyleSheet.create({
 
   button: {
     marginTop: 30,
-    borderRadius: 10,
     alignItems: "center",
   },
 });

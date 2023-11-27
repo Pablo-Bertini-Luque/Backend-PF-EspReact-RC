@@ -1,6 +1,5 @@
 import React from "react";
-import { FlatList, StyleSheet, View, StatusBar } from "react-native";
-import { products } from "../JSON/Productos.json";
+import { FlatList, View, StatusBar, Button } from "react-native";
 import { ProductsItem } from "./ProductsItem";
 
 export const ProductsList = ({ navigation, data }) => {
