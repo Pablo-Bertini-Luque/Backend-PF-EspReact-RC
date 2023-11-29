@@ -1,42 +1,29 @@
-import { useEffect, useState } from "react";
-import {
-  Button,
-  Text,
-  View,
-  StyleSheet,
-  Pressable,
-  Image,
-  ActivityIndicator,
-} from "react-native";
+import { useEffect } from "react";
+import { Button, Text, View, StyleSheet, Pressable, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { stylesGral } from "../../css/Theme";
-import { padelApiUrl } from "../../../config/padelpertuttiApi";
 import { CustomModal } from "../../components/CustomModal";
+import { useGetTurn } from "../../hooks/UseGetTurn";
+import { CustomLoading } from "../../components/CustomLoading";
 
 export const InfoTurn = ({ route, navigation }) => {
   const { idTurn } = route.params;
-  const [detailsTurn, setDetailsTurn] = useState({});
-  const [textModalError, setTextModalError] = useState("");
-  const [activeErrorModal, setActiveErrorModal] = useState(false);
 
-  const handleCloseModal = () => {
-    setActiveErrorModal(false);
-  };
-
-  const getTurn = async () => {
-    try {
-      const turn = await padelApiUrl.get(`/turnos/${idTurn}`);
-      const data = turn.data;
-      setDetailsTurn(data);
-    } catch (error) {
-      setTextModalError(error);
-      setActiveErrorModal(true);
-    }
-  };
+  const {
+    detailsTurn,
+    textModalError,
+    activeErrorModal,
+    handleCloseModal,
+    getTurn,
+  } = useGetTurn();
 
   useEffect(() => {
-    getTurn();
+    getTurn(idTurn);
   }, []);
+
+  if (detailsTurn === null) {
+    return <CustomLoading />;
+  }
 
   return (
     <>
@@ -57,7 +44,7 @@ export const InfoTurn = ({ route, navigation }) => {
                 Hora del turno: {detailsTurn?.turno?.hora || "N/A"}
               </Text>
               <Text style={styles.text}>
-                Categoria de los jugadores:
+                Categoria de los jugadores:{" "}
                 {detailsTurn?.turno?.categoria || "N/A"}
               </Text>
               <Text style={styles.text}>
@@ -68,7 +55,6 @@ export const InfoTurn = ({ route, navigation }) => {
                 {detailsTurn?.UsuarioCreadordelTurno || "N/A"}
               </Text>
             </View>
-
             <View style={styles.button}>
               <Button title="Unirse a la partida" />
               <Pressable

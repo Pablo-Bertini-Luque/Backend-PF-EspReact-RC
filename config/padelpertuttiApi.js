@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-const urlApi = "http://192.168.1.7:8080/api";
+const urlApi = "https://padel-per-tutti.onrender.com/api";
 
 export const padelApiUrl = axios.create({
   baseURL: urlApi,

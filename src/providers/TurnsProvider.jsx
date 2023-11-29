@@ -7,6 +7,8 @@ import { types } from "../types/Types";
 const initialState = {
   turn: "",
   errorMessage: "",
+  isLoading: true,
+  myTuns: null,
 };
 
 export const TurnsProvider = ({ children }) => {
@@ -72,6 +74,13 @@ export const TurnsProvider = ({ children }) => {
     }
   };
 
+  const joinTurn = (data) => {
+    dispatch({
+      type: types.turns.myTurns,
+      payload: data,
+    });
+  };
+
   return (
     <TurnsContext.Provider
       value={{
@@ -83,6 +92,7 @@ export const TurnsProvider = ({ children }) => {
         newTurn,
         textModal,
         activeModal,
+        joinTurn,
       }}
     >
       {children}

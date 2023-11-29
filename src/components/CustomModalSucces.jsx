@@ -8,8 +8,6 @@ export const CustomModalSucces = ({
   text,
   handleSuccessCloseModal,
 }) => {
-  const navigation = useNavigation();
-
   return (
     <View>
       <Modal

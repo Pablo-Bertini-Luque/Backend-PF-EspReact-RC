@@ -8,5 +8,6 @@ export const types = {
     loadTurns: "[TURNS] - LOAD",
     newTurns: "[TURNS] - NEW TURNS",
     errorsTurns: "[TURNS] - ERRORS",
+    myTurns: "[TURNS] - MY TURNS",
   },
 };

@@ -6,15 +6,24 @@ import { TurnsContext } from "../../contexts/TurnsContext";
 import { EmptyTurns } from "../StackNavigatorSession/EmptyTurns";
 import { ButtonCreateNewTurn } from "../../components/ButtonCreateNewTurn";
 import { StyleSheet, View, Text } from "react-native";
+import { CustomLoading } from "../../components/CustomLoading";
 
 export const Home = ({ navigation, route }) => {
   const { state, getAllTurnos } = useContext(TurnsContext);
 
   useEffect(() => {
     getAllTurnos();
-  }, [state.turn]);
+  }, []);
 
   const stateTurns = Object.keys(state.turn);
+
+  if (state.isLoading) {
+    return (
+      <SafeAreaView style={stylesGral.safeAreaView}>
+        <CustomLoading />
+      </SafeAreaView>
+    );
+  }
 
   if (stateTurns.length === 0) {
     return (
