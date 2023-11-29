@@ -6,11 +6,7 @@ import { TurnsContext } from "../../contexts/TurnsContext";
 import { AuthContext } from "../../contexts/AuthContext";
 
 export const MyTurns = () => {
-  const { state: stateAuth } = useContext(AuthContext);
-  const { state: stateTurns } = useContext(TurnsContext);
-
-  console.log(stateAuth);
-  console.log(stateTurns);
+  const { state } = useContext(AuthContext);
 
   return (
     <SafeAreaView style={stylesGral.safeAreaView}>

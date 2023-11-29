@@ -1,35 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button, View } from "react-native";
 import { CustomModal } from "./CustomModal";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from "../contexts/AuthContext";
 
 export const ButtonCreateNewTurn = ({ navigation }) => {
   const [text, setText] = useState("");
   const [activeErrorModal, setActiveErrorModal] = useState(false);
-
-  const checkToken = async () => {
-    try {
-      const token = await AsyncStorage.getItem("x-token");
-      if (token) {
-        navigation.navigate("CreateTurn");
-      } else {
-        setActiveErrorModal(true);
-        setText("Para poder crear un turno, debe haber iniciado sesion");
-      }
-    } catch (error) {
-      setActiveErrorModal(true);
-      setText("Ocurrió el siguiente error: " + error);
-    }
-  };
+  const { state } = useContext(AuthContext);
 
   const handleCloseModal = () => {
     setActiveErrorModal(false);
   };
 
+  const checkIsLogged = async () => {
+    if (state.isLogged) {
+      return navigation.navigate("CreateTurn");
+    } else {
+      setActiveErrorModal(true);
+      setText("Para poder crear un turno, debe haber iniciado sesion");
+    }
+  };
+
   return (
     <>
       <View>
-        <Button title="Crear turno" onPress={checkToken} />
+        <Button title="Crear turno" onPress={checkIsLogged} />
       </View>
       <CustomModal
         text={text}

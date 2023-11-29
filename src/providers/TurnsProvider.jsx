@@ -8,7 +8,7 @@ const initialState = {
   turn: "",
   errorMessage: "",
   isLoading: true,
-  myTuns: null,
+  myTurns: null,
 };
 
 export const TurnsProvider = ({ children }) => {
@@ -74,7 +74,8 @@ export const TurnsProvider = ({ children }) => {
     }
   };
 
-  const joinTurn = (data) => {
+  const joinTurn = ({ data }) => {
+    console.log(data);
     dispatch({
       type: types.turns.myTurns,
       payload: data,

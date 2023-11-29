@@ -3,6 +3,7 @@ import { Text, View, Button, Image, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { stylesGral } from "../../css/Theme";
 import { AuthContext } from "../../contexts/AuthContext";
+import { Login } from "../Auths/Login";
 
 export const Profile = () => {
   const { logout, state } = useContext(AuthContext);
@@ -14,7 +15,9 @@ export const Profile = () => {
   return (
     <SafeAreaView style={stylesGral.safeAreaView}>
       <View style={style.containerImage}>
-        <Image source={{ uri: state.user.avatar }} style={style.image} />
+        {state.user.avatar && (
+          <Image source={{ uri: state.user.avatar }} style={style.image} />
+        )}
       </View>
       <View style={style.containerText}>
         <Text style={style.text}>Nombre: {state.user.nombre}</Text>

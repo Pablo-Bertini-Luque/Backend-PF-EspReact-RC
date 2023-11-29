@@ -1,13 +1,16 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Button, Text, View, StyleSheet, Pressable, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { stylesGral } from "../../css/Theme";
 import { CustomModal } from "../../components/CustomModal";
 import { useGetTurn } from "../../hooks/UseGetTurn";
 import { CustomLoading } from "../../components/CustomLoading";
+import { TurnsContext } from "../../contexts/TurnsContext";
 
 export const InfoTurn = ({ route, navigation }) => {
   const { idTurn } = route.params;
+
+  const { state: stateTurns, joinTurn } = useContext(TurnsContext);
 
   const {
     detailsTurn,
@@ -20,6 +23,8 @@ export const InfoTurn = ({ route, navigation }) => {
   useEffect(() => {
     getTurn(idTurn);
   }, []);
+
+  console.log(stateTurns);
 
   if (detailsTurn === null) {
     return <CustomLoading />;
@@ -56,7 +61,10 @@ export const InfoTurn = ({ route, navigation }) => {
               </Text>
             </View>
             <View style={styles.button}>
-              <Button title="Unirse a la partida" />
+              <Button
+                title="Unirse a la partida"
+                onPress={(detailsTurn) => joinTurn(detailsTurn)}
+              />
               <Pressable
                 style={{ marginTop: 30 }}
                 onPress={() => navigation.goBack()}
