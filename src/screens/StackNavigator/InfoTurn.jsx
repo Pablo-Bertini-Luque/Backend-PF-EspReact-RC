@@ -6,25 +6,45 @@ import { CustomModal } from "../../components/CustomModal";
 import { useGetTurn } from "../../hooks/UseGetTurn";
 import { CustomLoading } from "../../components/CustomLoading";
 import { TurnsContext } from "../../contexts/TurnsContext";
+import { AuthContext } from "../../contexts/AuthContext";
+import { CustomModalSucces } from "../../components/CustomModalSucces";
 
 export const InfoTurn = ({ route, navigation }) => {
   const { idTurn } = route.params;
 
-  const { state: stateTurns, joinTurn } = useContext(TurnsContext);
+  const { joinTurn } = useContext(TurnsContext);
+  const { state } = useContext(AuthContext);
 
   const {
     detailsTurn,
+    textModal,
     textModalError,
-    activeErrorModal,
-    handleCloseModal,
+    activeModal,
+    activeModalError,
     getTurn,
+    setTextModal,
+    setActiveModal,
+    setTextModalError,
+    setActiveModalError,
+    handleCloseModal,
   } = useGetTurn();
 
   useEffect(() => {
     getTurn(idTurn);
   }, []);
 
-  console.log(stateTurns);
+  const addTurn = (detailsTurn) => {
+    if (state.isLogged) {
+      setActiveModal(true);
+      setTextModal("Te uniste a la partida");
+      return joinTurn(detailsTurn);
+    }
+
+    return (
+      setTextModalError("Para poder unirse a la partida, debe iniciar sesión"),
+      setActiveModalError(true)
+    );
+  };
 
   if (detailsTurn === null) {
     return <CustomLoading />;
@@ -63,7 +83,10 @@ export const InfoTurn = ({ route, navigation }) => {
             <View style={styles.button}>
               <Button
                 title="Unirse a la partida"
-                onPress={(detailsTurn) => joinTurn(detailsTurn)}
+                onPress={(event) => {
+                  event.persist();
+                  addTurn(detailsTurn);
+                }}
               />
               <Pressable
                 style={{ marginTop: 30 }}
@@ -77,8 +100,13 @@ export const InfoTurn = ({ route, navigation }) => {
       </SafeAreaView>
       <CustomModal
         text={textModalError}
-        activeErrorModal={activeErrorModal}
+        activeErrorModal={activeModalError}
         handleCloseModal={handleCloseModal}
+      />
+      <CustomModalSucces
+        activeModal={activeModal}
+        text={textModal}
+        handleSuccessCloseModal={handleCloseModal}
       />
     </>
   );

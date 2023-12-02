@@ -8,7 +8,7 @@ const initialState = {
   turn: "",
   errorMessage: "",
   isLoading: true,
-  myTurns: null,
+  myTurns: [],
 };
 
 export const TurnsProvider = ({ children }) => {
@@ -74,12 +74,17 @@ export const TurnsProvider = ({ children }) => {
     }
   };
 
-  const joinTurn = ({ data }) => {
-    console.log(data);
-    dispatch({
-      type: types.turns.myTurns,
-      payload: data,
-    });
+  const joinTurn = (data) => {
+    const idAllTurns = state.myTurns.map((item) => item.turno._id);
+
+    const existsTurn = idAllTurns.includes(data.turno._id);
+
+    if (!existsTurn) {
+      dispatch({
+        type: types.turns.myTurns,
+        payload: data,
+      });
+    }
   };
 
   return (

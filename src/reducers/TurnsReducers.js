@@ -25,7 +25,7 @@ export const TurnsReducer = (state = {}, action) => {
     case types.turns.myTurns:
       return {
         ...state,
-        myTurns: action.payload,
+        myTurns: [...state.myTurns, action.payload],
       };
     default:
       return state;

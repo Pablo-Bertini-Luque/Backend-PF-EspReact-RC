@@ -3,7 +3,6 @@ import { Text, View, Button, Image, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { stylesGral } from "../../css/Theme";
 import { AuthContext } from "../../contexts/AuthContext";
-import { Login } from "../Auths/Login";
 
 export const Profile = () => {
   const { logout, state } = useContext(AuthContext);

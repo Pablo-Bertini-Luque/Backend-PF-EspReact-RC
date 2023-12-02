@@ -3,11 +3,14 @@ import { padelApiUrl } from "../../config/padelpertuttiApi";
 
 export const useGetTurn = () => {
   const [detailsTurn, setDetailsTurn] = useState(null);
+  const [textModal, setTextModal] = useState("");
   const [textModalError, setTextModalError] = useState("");
-  const [activeErrorModal, setActiveErrorModal] = useState(false);
+  const [activeModal, setActiveModal] = useState(false);
+  const [activeModalError, setActiveModalError] = useState(false);
 
   const handleCloseModal = () => {
-    setActiveErrorModal(false);
+    setActiveModal(false);
+    setActiveModalError(false);
   };
 
   const getTurn = async (id) => {
@@ -16,15 +19,21 @@ export const useGetTurn = () => {
       const data = turn.data;
       setDetailsTurn(data);
     } catch (error) {
-      setTextModalError(error.data);
-      setActiveErrorModal(true);
+      setTextModal(error.data);
+      setActiveModal(true);
     }
   };
   return {
     detailsTurn,
-    textModalError,
-    activeErrorModal,
+    textModal,
+    activeModal,
     handleCloseModal,
     getTurn,
+    setTextModal,
+    setActiveModal,
+    textModalError,
+    setTextModalError,
+    activeModalError,
+    setActiveModalError,
   };
 };

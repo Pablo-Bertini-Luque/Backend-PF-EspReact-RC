@@ -1,24 +1,43 @@
 import React, { useContext } from "react";
-import { Image, Text, View } from "react-native";
+import { FlatList, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { stylesGral } from "../../css/Theme";
 import { TurnsContext } from "../../contexts/TurnsContext";
-import { AuthContext } from "../../contexts/AuthContext";
+import { MyTurnsList } from "../../components/MyTurnsList";
+import { stylesGral } from "../../css/Theme";
 
-export const MyTurns = () => {
-  const { state } = useContext(AuthContext);
+export const MyTurns = ({ navigation }) => {
+  const { state } = useContext(TurnsContext);
+
+  console.log(state.myTurns);
+
+  if (state.myTurns.length === 0) {
+    return (
+      <SafeAreaView style={stylesGral.safeAreaView}>
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <View>
+            <Text
+              style={{ fontSize: 20, fontWeight: "bold", marginBottom: 50 }}
+            >
+              No tenes turnos seleccionados
+            </Text>
+          </View>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={stylesGral.safeAreaView}>
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <View>
-          <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 50 }}>
-            Pagina en mantenimiento
-          </Text>
-          <View>
-            <Image source={require("../../../assets/Mantenimiento.png")} />
-          </View>
-        </View>
+      <View>
+        <FlatList
+          data={state.myTurns}
+          keyExtractor={(item) => item.turno._id}
+          renderItem={({ item }) => (
+            <MyTurnsList data={item} navigation={navigation} />
+          )}
+        />
       </View>
     </SafeAreaView>
   );

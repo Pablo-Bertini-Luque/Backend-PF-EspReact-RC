@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Modal, View, Text, Pressable, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 
 export const CustomModalSucces = ({
   activeModal,
