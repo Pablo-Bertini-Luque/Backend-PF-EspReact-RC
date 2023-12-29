@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   Button,
   StyleSheet,
@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { stylesGral } from "../../css/Theme";
@@ -17,6 +18,9 @@ import { CustomModal } from "../../components/CustomModal";
 import { TurnsContext } from "../../contexts/TurnsContext";
 
 export const CreateTurn = ({ navigation }) => {
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [date, setDate] = useState(new Date());
+
   const {
     state,
     handleCloseModal,
@@ -45,7 +49,7 @@ export const CreateTurn = ({ navigation }) => {
         .required("La categoria es obligatoria. Ingrese un numero del 1 al 8")
         .min(1, "La categoria mínima es 1")
         .max(8, "La categoria máxima es 8")
-        .typeError("Solo se permite ingresar números"),
+        .typeError("Solamente se permiten ingresar numeros"),
       tipoCancha: Yup.string().required("Debe ingresar el tipo de cancha"),
     }),
     onSubmit: (values) => {
@@ -73,6 +77,7 @@ export const CreateTurn = ({ navigation }) => {
                 name="lugar"
                 placeholder="Ingrese el lugar del turno"
                 placeholderTextColor="grey"
+                autoComplete="name"
                 onChangeText={(value) => formik.setFieldValue("lugar", value)}
               />
               {formik.errors.lugar && (
@@ -81,13 +86,24 @@ export const CreateTurn = ({ navigation }) => {
             </View>
             <View>
               <Text style={styles.label}>Hora del turno</Text>
-              <TextInput
-                style={stylesGral.input}
-                name="hora"
-                placeholder="Ingrese la hora de inicio y fin del turno"
-                placeholderTextColor="grey"
-                onChangeText={(value) => formik.setFieldValue("hora", value)}
-              />
+              <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+                <Text style={stylesGral.input}>{date.toLocaleString()}</Text>
+              </TouchableOpacity>
+              {showDatePicker && (
+                <DateTimePicker
+                  value={date}
+                  mode="datetime"
+                  is24Hour={true}
+                  display="default"
+                  onChange={(event, selectedDate) => {
+                    setShowDatePicker(Platform.OS === "ios");
+                    if (selectedDate) {
+                      setDate(selectedDate);
+                      formik.setFieldValue("hora", selectedDate.toISOString());
+                    }
+                  }}
+                />
+              )}
               {formik.errors.hora && (
                 <CustumErrorInput message={formik.errors.hora} />
               )}

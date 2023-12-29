@@ -66,7 +66,7 @@ export const InfoTurn = ({ route, navigation }) => {
                 Lugar: {detailsTurn?.turno?.lugar || "N/A"}
               </Text>
               <Text style={styles.text}>
-                Hora del turno: {detailsTurn?.turno?.hora || "N/A"}
+                Dia y Hora del turno: {detailsTurn?.turno?.hora || "N/A"}
               </Text>
               <Text style={styles.text}>
                 Categoria de los jugadores:{" "}
