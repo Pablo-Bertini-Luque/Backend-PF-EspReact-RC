@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { stylesGral } from "../../css/Theme";
@@ -16,10 +17,16 @@ import { CustomModalSucces } from "../../components/CustomModalSucces";
 import { CustumErrorInput } from "../../components/CustumErrorInput";
 import { CustomModal } from "../../components/CustomModal";
 import { TurnsContext } from "../../contexts/TurnsContext";
+import { CustomLoading } from "../../components/CustomLoading";
 
 export const CreateTurn = ({ navigation }) => {
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [isStartTimePickerVisible, setStartTimePickerVisibility] =
+    useState(false);
+  const [isEndTimePickerVisible, setEndTimePickerVisibility] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedStartTime, setSelectedStartTime] = useState(null);
+  const [selectedEndTime, setSelectedEndTime] = useState(null);
 
   const {
     state,
@@ -34,17 +41,16 @@ export const CreateTurn = ({ navigation }) => {
   const formik = useFormik({
     initialValues: {
       lugar: "",
-      hora: "",
-      categoria: "",
+      categoria: 1,
       tipoCancha: "",
+      fecha: "",
+      horaInicio: "",
+      horaFin: "",
     },
     validationSchema: Yup.object({
       lugar: Yup.string()
         .required("El nombre del lugar de juego es obligatorio")
         .min(5, "El nombre debe tener un mínimo de 5 caracteres"),
-      hora: Yup.string()
-        .required("La hora de juego es obligatoria")
-        .min(6, "Debe ser de 00 a 23 hs"),
       categoria: Yup.number()
         .required("La categoria es obligatoria. Ingrese un numero del 1 al 8")
         .min(1, "La categoria mínima es 1")
@@ -53,14 +59,59 @@ export const CreateTurn = ({ navigation }) => {
       tipoCancha: Yup.string().required("Debe ingresar el tipo de cancha"),
     }),
     onSubmit: (values) => {
-      newTurn(
-        formik.values.lugar,
-        formik.values.hora,
-        formik.values.categoria,
-        formik.values.tipoCancha
-      );
+      console.log("Ingresa al onSubmit");
+
+      try {
+        newTurn(
+          formik.values.lugar,
+          formik.values.categoria,
+          formik.values.tipoCancha,
+          formik.values.categoria
+        );
+      } catch (error) {
+        console.error(error);
+      }
     },
   });
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleDateConfirm = (date) => {
+    setSelectedDate(date);
+    hideDatePicker();
+  };
+
+  const showStartTimePicker = () => {
+    setStartTimePickerVisibility(true);
+  };
+
+  const hideStartTimePicker = () => {
+    setStartTimePickerVisibility(false);
+  };
+
+  const handleStartTimeConfirm = (time) => {
+    setSelectedStartTime(time);
+    hideStartTimePicker();
+  };
+
+  const showEndTimePicker = () => {
+    setEndTimePickerVisibility(true);
+  };
+
+  const hideEndTimePicker = () => {
+    setEndTimePickerVisibility(false);
+  };
+
+  const handleEndTimeConfirm = (time) => {
+    setSelectedEndTime(time);
+    hideEndTimePicker();
+  };
 
   return (
     <>
@@ -85,28 +136,75 @@ export const CreateTurn = ({ navigation }) => {
               )}
             </View>
             <View>
-              <Text style={styles.label}>Hora del turno</Text>
-              <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-                <Text style={stylesGral.input}>{date.toLocaleString()}</Text>
-              </TouchableOpacity>
-              {showDatePicker && (
-                <DateTimePicker
-                  value={date}
-                  mode="datetime"
-                  is24Hour={true}
-                  display="default"
-                  onChange={(event, selectedDate) => {
-                    setShowDatePicker(Platform.OS === "ios");
-                    if (selectedDate) {
-                      setDate(selectedDate);
-                      formik.setFieldValue("hora", selectedDate.toISOString());
-                    }
-                  }}
+              <Text style={styles.label}>Fecha del turno</Text>
+              <TouchableOpacity
+                style={stylesGral.input}
+                onPress={showDatePicker}
+              >
+                {selectedDate && (
+                  <Text>{selectedDate.toLocaleDateString("es-Arg")}</Text>
+                )}
+                <DateTimePickerModal
+                  isVisible={isDatePickerVisible}
+                  value={selectedDate}
+                  mode="date"
+                  onConfirm={handleDateConfirm}
+                  onCancel={hideDatePicker}
+                  onChange={(value) => formik.setFieldValue("fecha", value)}
                 />
-              )}
-              {formik.errors.hora && (
-                <CustumErrorInput message={formik.errors.hora} />
-              )}
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text style={styles.label}>Hora de inicio del turno</Text>
+              <TouchableOpacity
+                style={stylesGral.input}
+                onPress={showStartTimePicker}
+              >
+                {selectedStartTime && (
+                  <Text>
+                    {selectedStartTime.toLocaleTimeString("es-Arg", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </Text>
+                )}
+                <DateTimePickerModal
+                  isVisible={isStartTimePickerVisible}
+                  value={selectedStartTime}
+                  mode="time"
+                  display="spinner"
+                  onConfirm={handleStartTimeConfirm}
+                  onCancel={hideStartTimePicker}
+                  onChange={(value) =>
+                    formik.setFieldValue("horaInicio", value)
+                  }
+                />
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text style={styles.label}>Hora de finalizacion del turno</Text>
+              <TouchableOpacity
+                style={stylesGral.input}
+                onPress={showEndTimePicker}
+              >
+                {selectedEndTime && (
+                  <Text>
+                    {selectedEndTime.toLocaleTimeString("es-Arg", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </Text>
+                )}
+                <DateTimePickerModal
+                  isVisible={isEndTimePickerVisible}
+                  value={selectedEndTime}
+                  mode="time"
+                  display="spinner"
+                  onConfirm={handleEndTimeConfirm}
+                  onCancel={hideEndTimePicker}
+                  onChange={(value) => formik.setFieldValue("horaFin", value)}
+                />
+              </TouchableOpacity>
             </View>
             <View>
               <Text style={styles.label}>Categoria de los jugadores</Text>
@@ -124,7 +222,7 @@ export const CreateTurn = ({ navigation }) => {
               )}
             </View>
             <View>
-              <Text style={styles.label}>Ingre el tipo de cancha</Text>
+              <Text style={styles.label}>Ingrese el tipo de cancha</Text>
               <TextInput
                 style={stylesGral.input}
                 name="tipoCancha"
@@ -145,7 +243,44 @@ export const CreateTurn = ({ navigation }) => {
               )}
             </View>
             <View style={styles.button}>
-              <Button title="Crear turno" onPress={formik.handleSubmit} />
+              <Button
+                title="Crear turno"
+                onPress={() => {
+                  const categoriaValue = formik.values.categoria;
+                  console.log(
+                    "Valor de categoria antes de la conversión:",
+                    categoriaValue
+                  );
+                  // Intenta convertir el valor a número
+                  const categoriaNumero = parseInt(categoriaValue, 10);
+
+                  console.log(
+                    "Tipo de categoria después de la conversión:",
+                    typeof categoriaNumero
+                  );
+
+                  console.log(
+                    "Valor de categoria después de la conversión:",
+                    categoriaNumero
+                  );
+                  // Verifica si la conversión fue exitosa y está en el rango válido
+                  if (
+                    !isNaN(categoriaNumero) &&
+                    categoriaNumero >= 1 &&
+                    categoriaNumero <= 8
+                  ) {
+                    // Actualiza el valor de categoría en el objeto formik
+                    formik.setFieldValue("categoria", categoriaNumero);
+
+                    // Continúa con el envío del formulario
+                    formik.handleSubmit();
+                  } else {
+                    console.error(
+                      "La categoría no es un número válido o no está en el rango permitido (1-8)"
+                    );
+                  }
+                }}
+              />
             </View>
             <View>
               <TouchableOpacity

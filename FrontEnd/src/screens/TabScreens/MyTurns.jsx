@@ -8,8 +8,6 @@ import { stylesGral } from "../../css/Theme";
 export const MyTurns = ({ navigation }) => {
   const { state } = useContext(TurnsContext);
 
-  console.log(state.myTurns);
-
   if (state.myTurns.length === 0) {
     return (
       <SafeAreaView style={stylesGral.safeAreaView}>

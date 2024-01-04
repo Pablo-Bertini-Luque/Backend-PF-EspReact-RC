@@ -18,6 +18,7 @@ import { CustomconInput } from "../../components/CustomImputs";
 import { AuthContext } from "../../contexts/AuthContext";
 import { CustomModal } from "../../components/CustomModal";
 import { CustumErrorInput } from "../../components/CustumErrorInput";
+import { CustomLoading } from "../../components/CustomLoading";
 
 export const Login = ({ navigation }) => {
   const { login, state, handleCloseModal, activeErrorModal } =
@@ -76,16 +77,24 @@ export const Login = ({ navigation }) => {
             </View>
             <View style={styles.button}>
               <View>
-                <Button title="Ingresar" onPress={formik.handleSubmit} />
-              </View>
-              <View style={{ marginTop: 40 }}>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate("Register")}
-                >
-                  <Text style={{ color: "white", textAlign: "center" }}>
-                    REGISTRARSE
-                  </Text>
-                </TouchableOpacity>
+                {formik.isSubmitting ? (
+                  <CustomLoading />
+                ) : (
+                  <View>
+                    <View>
+                      <Button title="Ingresar" onPress={formik.handleSubmit} />
+                    </View>
+                    <View style={{ marginTop: 40 }}>
+                      <TouchableOpacity
+                        onPress={() => navigation.navigate("Register")}
+                      >
+                        <Text style={{ color: "white", textAlign: "center" }}>
+                          REGISTRARSE
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                )}
               </View>
             </View>
           </KeyboardAvoidingView>

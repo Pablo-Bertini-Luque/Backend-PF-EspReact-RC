@@ -15,8 +15,6 @@ export const Home = ({ navigation, route }) => {
     getAllTurnos();
   }, []);
 
-  console.log(state);
-
   const stateTurns = Object.keys(state.turn);
 
   if (state.isLoading) {
