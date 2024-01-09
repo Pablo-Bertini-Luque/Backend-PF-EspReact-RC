@@ -10,7 +10,7 @@ const TurnoSchema = Schema({
     required: [true, "La hora del turno es requerida"],
   },
   categoria: {
-    type: String,
+    type: Number,
     required: [true, "Indica categoria de los jugadores del turno"],
     enum: [1, 2, 3, 4, 5, 6, 7, 8],
   },
