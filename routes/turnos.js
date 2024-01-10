@@ -24,7 +24,9 @@ router.post(
     check("hora", "Debe indicar la hora de inicio y fin del turno")
       .not()
       .isEmpty(),
-    check("categoria", "Debe ingresar un número del 1 al 8").isNumeric(),
+    check("categoria", "Debe ingresar un número del 1 al 8").isIn([
+      1, 2, 3, 4, 5, 6, 7, 8,
+    ]),
     check("tipoCancha", "Indicar si la cancha es de cemento o cesped").isIn([
       "CESPED",
       "CEMENTO",
